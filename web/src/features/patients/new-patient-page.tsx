@@ -7,7 +7,11 @@ import { ErrorMessage } from '../../components/error-message';
 import { TextInput } from '../../components/text-input';
 import { api } from '../../lib/api';
 import { queryKeys } from '../../lib/query-client';
-import { createPatientSchema, type CreatePatientInput } from '../../lib/schemas';
+import {
+  createPatientSchema,
+  type CreatePatientForm,
+  type CreatePatientInput,
+} from '../../lib/schemas';
 
 export function NewPatientPage() {
   const navigate = useNavigate();
@@ -17,15 +21,17 @@ export function NewPatientPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreatePatientInput>({
+  } = useForm<CreatePatientForm, unknown, CreatePatientInput>({
     resolver: zodResolver(createPatientSchema),
-    defaultValues: { name: '', email: '' },
+    defaultValues: { name: '', email: '', phone: '' },
   });
 
   const createPatient = useMutation({
     mutationFn: api.createPatient,
     onSuccess: async (patient) => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.patients.list() });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.patients.list(),
+      });
       navigate(`/patients/${patient.id}`);
     },
   });
@@ -38,9 +44,23 @@ export function NewPatientPage() {
         noValidate
         className="space-y-4 rounded border border-gray-200 bg-white p-6"
       >
-        <TextInput label="Name" error={errors.name?.message} {...register('name')} />
-        <TextInput label="Email" type="email" error={errors.email?.message} {...register('email')} />
+        <TextInput
+          label="Name"
+          error={errors.name?.message}
+          {...register('name')}
+        />
+        <TextInput
+          label="Email"
+          type="email"
+          error={errors.email?.message}
+          {...register('email')}
+        />
         {createPatient.error && <ErrorMessage error={createPatient.error} />}
+        <TextInput
+          label="Phone"
+          error={errors.phone?.message}
+          {...register('phone')}
+        />
         <Button type="submit" disabled={createPatient.isPending}>
           {createPatient.isPending ? 'Saving…' : 'Create patient'}
         </Button>

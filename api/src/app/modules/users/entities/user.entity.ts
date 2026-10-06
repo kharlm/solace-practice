@@ -10,4 +10,7 @@ export class User {
 
   @Column({ unique: true })
   email: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  phone: string | null;
 }

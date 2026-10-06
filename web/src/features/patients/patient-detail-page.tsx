@@ -10,7 +10,11 @@ export function PatientDetailPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: patient, isPending, error } = useQuery({
+  const {
+    data: patient,
+    isPending,
+    error,
+  } = useQuery({
     queryKey: queryKeys.patients.detail(id),
     queryFn: () => api.getPatient(id),
   });
@@ -19,7 +23,9 @@ export function PatientDetailPage() {
     mutationFn: () => api.deletePatient(id),
     onSuccess: async () => {
       queryClient.removeQueries({ queryKey: queryKeys.patients.detail(id) });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.patients.list() });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.patients.list(),
+      });
       navigate('/patients');
     },
   });
@@ -41,9 +47,15 @@ export function PatientDetailPage() {
             <dd>{patient.id}</dd>
             <dt className="text-gray-600">Email</dt>
             <dd>{patient.email}</dd>
+            <dt className="text-gray-600">Phone</dt>
+            <dd>{patient.phone}</dd>
           </dl>
           {deletePatient.error && <ErrorMessage error={deletePatient.error} />}
-          <Button variant="danger" onClick={() => deletePatient.mutate()} disabled={deletePatient.isPending}>
+          <Button
+            variant="danger"
+            onClick={() => deletePatient.mutate()}
+            disabled={deletePatient.isPending}
+          >
             {deletePatient.isPending ? 'Deleting…' : 'Delete patient'}
           </Button>
         </div>
