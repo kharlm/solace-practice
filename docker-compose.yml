@@ -1,0 +1,22 @@
+# Postgres only. Credentials come from api/.env, so run with:
+#   docker compose --env-file api/.env up -d   (or: npm run db:up)
+services:
+  postgres:
+    image: postgres:16
+    container_name: solace_practice_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
