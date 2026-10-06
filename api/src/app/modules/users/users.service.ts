@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { User, UserType } from './entities/user.entity';
 
 const UNIQUE_VIOLATION = '23505';
 
@@ -11,8 +11,11 @@ const UNIQUE_VIOLATION = '23505';
 export class UsersService {
   constructor(@InjectRepository(User) private readonly users: Repository<User>) {}
 
-  findAll() {
-    return this.users.find({ order: { id: 'ASC' } });
+  findAll(type?: UserType) {
+    return this.users.find({
+      where: type ? { type } : undefined,
+      order: { id: 'ASC' },
+    });
   }
 
   async findOne(id: number) {

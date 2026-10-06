@@ -1,10 +1,12 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
-  IsOptional,
 } from 'class-validator';
+import { UserType } from '../entities/user.entity';
 
 export class CreateUserDto {
   @IsString()
@@ -20,4 +22,8 @@ export class CreateUserDto {
   @IsString()
   @MaxLength(20)
   phone?: string | null;
+
+  @IsOptional()
+  @IsEnum(UserType)
+  type?: UserType;
 }

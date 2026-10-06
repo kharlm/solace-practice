@@ -1,10 +1,12 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
+import { UserType } from '../entities/user.entity';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -22,4 +24,8 @@ export class UpdateUserDto {
   @IsString()
   @MaxLength(20)
   phone?: string | null;
+
+  @IsOptional()
+  @IsEnum(UserType)
+  type?: UserType;
 }

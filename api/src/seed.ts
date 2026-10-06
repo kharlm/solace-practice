@@ -1,13 +1,13 @@
 // Inserts 5 sample users. Safe to re-run: existing emails are updated, not duplicated.
 import dataSource from './datasource';
-import { User } from './app/modules/users/entities/user.entity';
+import { User, UserType } from './app/modules/users/entities/user.entity';
 
 const sampleUsers = [
-  { name: 'Ada Lovelace', email: 'ada@example.com' },
-  { name: 'Grace Hopper', email: 'grace@example.com' },
-  { name: 'Alan Turing', email: 'alan@example.com' },
-  { name: 'Katherine Johnson', email: 'katherine@example.com' },
-  { name: 'Linus Torvalds', email: 'linus@example.com' },
+  { name: 'Ada Lovelace', email: 'ada@example.com', type: UserType.Patient },
+  { name: 'Grace Hopper', email: 'grace@example.com', type: UserType.Physician },
+  { name: 'Alan Turing', email: 'alan@example.com', type: UserType.Patient },
+  { name: 'Katherine Johnson', email: 'katherine@example.com', type: UserType.Advocate },
+  { name: 'Linus Torvalds', email: 'linus@example.com', type: UserType.Internal },
 ];
 
 async function seed() {
