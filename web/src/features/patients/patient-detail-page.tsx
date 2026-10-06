@@ -24,7 +24,7 @@ export function PatientDetailPage() {
     onSuccess: async () => {
       queryClient.removeQueries({ queryKey: queryKeys.patients.detail(id) });
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.patients.list(),
+        queryKey: queryKeys.patients.lists(),
       });
       navigate('/patients');
     },

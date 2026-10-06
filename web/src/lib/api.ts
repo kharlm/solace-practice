@@ -4,6 +4,7 @@ import {
   patientSchema,
   type CreatePatientInput,
   type Patient,
+  type PatientListFilters,
 } from './schemas';
 
 // Patients are stored as users in the API for now.
@@ -29,7 +30,12 @@ async function requestParsed<T extends z.ZodType>(schema: T, path: string, init?
 }
 
 export const api = {
-  listPatients: (): Promise<Patient[]> => requestParsed(patientListSchema, ''),
+  listPatients: (filters: PatientListFilters = {}): Promise<Patient[]> => {
+    const params = new URLSearchParams();
+    if (filters.type) params.set('type', filters.type);
+    const query = params.size > 0 ? `?${params}` : '';
+    return requestParsed(patientListSchema, query);
+  },
 
   getPatient: (id: number): Promise<Patient> => requestParsed(patientSchema, `/${id}`),
 

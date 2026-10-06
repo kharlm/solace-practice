@@ -1,10 +1,19 @@
 import { z } from 'zod';
 
+// Mirrors the API's UserType enum.
+export const userTypeSchema = z.enum([
+  'patient',
+  'physician',
+  'advocate',
+  'internal',
+]);
+
 export const patientSchema = z.object({
   id: z.number(),
   name: z.string(),
   email: z.string(),
   phone: z.string().nullable(),
+  type: userTypeSchema,
 });
 
 export const patientListSchema = z.array(patientSchema);
@@ -23,6 +32,8 @@ export const createPatientSchema = z.object({
     .transform((value) => value || null),
 });
 
+export type UserType = z.infer<typeof userTypeSchema>;
 export type Patient = z.infer<typeof patientSchema>;
+export type PatientListFilters = { type?: UserType };
 export type CreatePatientForm = z.input<typeof createPatientSchema>;
 export type CreatePatientInput = z.output<typeof createPatientSchema>;

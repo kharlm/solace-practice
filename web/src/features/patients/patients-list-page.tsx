@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { ErrorMessage } from '../../components/error-message';
 import { api } from '../../lib/api';
 import { queryKeys } from '../../lib/query-client';
+import type { PatientListFilters } from '../../lib/schemas';
+
+const filters: PatientListFilters = { type: 'patient' };
 
 export function PatientsListPage() {
   const {
@@ -10,8 +13,8 @@ export function PatientsListPage() {
     isPending,
     error,
   } = useQuery({
-    queryKey: queryKeys.patients.list(),
-    queryFn: api.listPatients,
+    queryKey: queryKeys.patients.list(filters),
+    queryFn: () => api.listPatients(filters),
   });
 
   return (

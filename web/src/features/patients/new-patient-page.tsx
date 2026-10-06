@@ -30,7 +30,7 @@ export function NewPatientPage() {
     mutationFn: api.createPatient,
     onSuccess: async (patient) => {
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.patients.list(),
+        queryKey: queryKeys.patients.lists(),
       });
       navigate(`/patients/${patient.id}`);
     },
