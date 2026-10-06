@@ -32,8 +32,23 @@ export const createPatientSchema = z.object({
     .transform((value) => value || null),
 });
 
+export const noteSchema = z.object({
+  id: z.number(),
+  body: z.string(),
+  createdAt: z.string(),
+  userId: z.number(),
+});
+
+export const noteListSchema = z.array(noteSchema);
+
+export const createNoteSchema = z.object({
+  body: z.string().trim().min(1, 'Note is required').max(5000),
+});
+
 export type UserType = z.infer<typeof userTypeSchema>;
 export type Patient = z.infer<typeof patientSchema>;
 export type PatientListFilters = { type?: UserType };
 export type CreatePatientForm = z.input<typeof createPatientSchema>;
 export type CreatePatientInput = z.output<typeof createPatientSchema>;
+export type Note = z.infer<typeof noteSchema>;
+export type CreateNoteInput = z.infer<typeof createNoteSchema>;

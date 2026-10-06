@@ -16,5 +16,7 @@ export const queryKeys = {
     list: (filters: PatientListFilters = {}) =>
       [...queryKeys.patients.lists(), filters] as const,
     detail: (id: number) => [...queryKeys.patients.all, 'detail', id] as const,
+    // Nested under detail(id), so removing a patient's detail also removes its notes.
+    notes: (id: number) => [...queryKeys.patients.detail(id), 'notes'] as const,
   },
 };

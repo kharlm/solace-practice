@@ -1,8 +1,12 @@
 import type { z } from 'zod';
 import {
+  noteListSchema,
+  noteSchema,
   patientListSchema,
   patientSchema,
+  type CreateNoteInput,
   type CreatePatientInput,
+  type Note,
   type Patient,
   type PatientListFilters,
 } from './schemas';
@@ -48,4 +52,13 @@ export const api = {
   deletePatient: async (id: number): Promise<void> => {
     await request(`/${id}`, { method: 'DELETE' });
   },
+
+  listNotes: (patientId: number): Promise<Note[]> =>
+    requestParsed(noteListSchema, `/${patientId}/notes`),
+
+  createNote: (patientId: number, input: CreateNoteInput): Promise<Note> =>
+    requestParsed(noteSchema, `/${patientId}/notes`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    }),
 };

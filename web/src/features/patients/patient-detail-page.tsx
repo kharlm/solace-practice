@@ -4,6 +4,7 @@ import { Button } from '../../components/button';
 import { ErrorMessage } from '../../components/error-message';
 import { api } from '../../lib/api';
 import { queryKeys } from '../../lib/query-client';
+import { PatientNotes } from './patient-notes';
 
 export function PatientDetailPage() {
   const id = Number(useParams().id);
@@ -60,6 +61,8 @@ export function PatientDetailPage() {
           </Button>
         </div>
       )}
+
+      {patient && <PatientNotes patientId={patient.id} />}
     </div>
   );
 }
