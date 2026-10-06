@@ -32,6 +32,9 @@ export function NewPatientPage() {
       await queryClient.invalidateQueries({
         queryKey: queryKeys.patients.lists(),
       });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.patients.count(),
+      });
       navigate(`/patients/${patient.id}`);
     },
   });

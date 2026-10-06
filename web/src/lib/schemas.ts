@@ -32,6 +32,8 @@ export const createPatientSchema = z.object({
     .transform((value) => value || null),
 });
 
+export const userCountSchema = z.object({ count: z.number() });
+
 export const noteSchema = z.object({
   id: z.number(),
   body: z.string(),

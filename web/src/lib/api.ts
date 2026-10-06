@@ -4,6 +4,7 @@ import {
   noteSchema,
   patientListSchema,
   patientSchema,
+  userCountSchema,
   type CreateNoteInput,
   type CreatePatientInput,
   type Note,
@@ -52,6 +53,9 @@ export const api = {
   deletePatient: async (id: number): Promise<void> => {
     await request(`/${id}`, { method: 'DELETE' });
   },
+
+  getUserCount: async (): Promise<number> =>
+    (await requestParsed(userCountSchema, '/count')).count,
 
   listNotes: (patientId: number): Promise<Note[]> =>
     requestParsed(noteListSchema, `/${patientId}/notes`),
