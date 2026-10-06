@@ -18,6 +18,12 @@ export class UsersController {
     return this.usersService.findAll(query.type);
   }
 
+  // Must be declared before @Get(':id'), otherwise "count" is matched as an id.
+  @Get('count')
+  count() {
+    return this.usersService.count();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);

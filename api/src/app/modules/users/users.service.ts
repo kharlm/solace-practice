@@ -18,6 +18,10 @@ export class UsersService {
     });
   }
 
+  async count() {
+    return { count: await this.users.count() };
+  }
+
   async findOne(id: number) {
     const user = await this.users.findOneBy({ id });
     if (!user) throw new NotFoundException(`User ${id} not found`);
