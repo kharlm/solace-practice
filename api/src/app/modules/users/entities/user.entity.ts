@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Note } from '../../notes/entities/note.entity';
 
 export enum UserType {
   Patient = 'patient',
@@ -24,4 +25,8 @@ export class User {
   // Existing rows and users created without a type become patients.
   @Column({ type: 'enum', enum: UserType, default: UserType.Patient })
   type: UserType;
+
+  // The inverse side: no column on users, TypeORM resolves it through notes.userId.
+  @OneToMany(() => Note, (note) => note.user)
+  notes: Note[];
 }
