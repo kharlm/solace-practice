@@ -16,7 +16,8 @@ export class Note {
   @Column({ type: 'text' })
   body: string;
 
-  @CreateDateColumn()
+  // timestamptz stores an absolute instant; plain timestamp gets read as local time.
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
   // The foreign key column. Exposing it lets us filter and insert by userId
